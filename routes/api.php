@@ -5,6 +5,9 @@ use App\Http\Controllers\Account\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Account\AvatarController;
+use App\Http\Controllers\Users\DirectorController;
+use App\Http\Controllers\Users\GuardController;
+use App\Http\Controllers\Users\PrisonerController;
 
 // Se hace uso de grupo de rutas
 // https://laravel.com/docs/9.x/routing#route-groups
@@ -30,6 +33,47 @@ Route::prefix('v1')->group(function ()
 
 
         });
+
+        Route::prefix("director")->group(function ()
+        {
+            Route::controller(DirectorController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{user}', 'show');
+                Route::post('/{user}/update', 'update');
+                Route::get('/{user}/destroy', 'destroy');
+            });
+        });
+
+
+        Route::prefix("guard")->group(function ()
+        {
+            Route::controller(GuardController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{user}', 'show');
+                Route::post('/{user}/update', 'update');
+                Route::get('/{user}/destroy', 'destroy');
+            });
+        });
+
+
+        Route::prefix("prisoner")->group(function ()
+        {
+            Route::controller(PrisonerController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{user}', 'show');
+                Route::post('/{user}/update', 'update');
+                Route::get('/{user}/destroy', 'destroy');
+            });
+        });
+
+
+
+
+
+
     });
 });
 
