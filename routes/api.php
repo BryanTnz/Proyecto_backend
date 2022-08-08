@@ -9,6 +9,12 @@ use App\Http\Controllers\Users\DirectorController;
 use App\Http\Controllers\Users\GuardController;
 use App\Http\Controllers\Users\PrisonerController;
 
+use App\Http\Controllers\Spaces\JailController;
+use App\Http\Controllers\Spaces\WardController;
+
+use App\Http\Controllers\Assignment\GuardToWardController;
+use App\Http\Controllers\Assignment\PrisonerToJailController;
+
 // Se hace uso de grupo de rutas
 // https://laravel.com/docs/9.x/routing#route-groups
 // https://laravel.com/docs/9.x/routing#route-group-prefixes
@@ -66,6 +72,40 @@ Route::prefix('v1')->group(function ()
                 Route::get('/{user}', 'show');
                 Route::post('/{user}/update', 'update');
                 Route::get('/{user}/destroy', 'destroy');
+            });
+        });
+
+
+        Route::prefix('ward')->group(function () {
+            Route::controller(WardController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{ward}', 'show');
+                Route::post('/{ward}/update', 'update');
+                Route::get('/{ward}/destroy', 'destroy');
+            });
+        });
+
+        Route::prefix('jail')->group(function () {
+            Route::controller(JailController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{jail}', 'show');
+                Route::post('/{jail}/update', 'update');
+                Route::get('/{jail}/destroy', 'destroy');
+            });
+        });
+
+
+
+        Route::prefix('assignment')->group(function () {
+            Route::controller(GuardToWardController::class)->group(function () {
+                Route::get('/guards-and-wards', 'index');
+                Route::get('/guard-to-ward/{user}/{ward}', 'assign');
+            });
+            Route::controller(PrisonerToJailController::class)->group(function () {
+                Route::get('/prisoners-and-jails', 'index');
+                Route::get('/prisoner-to-jail/{user}/{jail}', 'assign');
             });
         });
 
