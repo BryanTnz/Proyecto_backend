@@ -15,6 +15,8 @@ use App\Http\Controllers\Spaces\WardController;
 use App\Http\Controllers\Assignment\GuardToWardController;
 use App\Http\Controllers\Assignment\PrisonerToJailController;
 
+
+use App\Http\Controllers\ReportController;
 // Se hace uso de grupo de rutas
 // https://laravel.com/docs/9.x/routing#route-groups
 // https://laravel.com/docs/9.x/routing#route-group-prefixes
@@ -108,6 +110,20 @@ Route::prefix('v1')->group(function ()
                 Route::get('/prisoner-to-jail/{user}/{jail}', 'assign');
             });
         });
+
+
+
+        Route::prefix('report')->group(function () {
+            Route::controller(ReportController::class)->group(function ()
+            {
+                Route::get('/', 'index');
+                Route::post('/create', 'store');
+                Route::get('/{report}', 'show');
+                Route::post('/{report}/update', 'update');
+                Route::get('/{report}/destroy', 'destroy');
+            });
+        });
+
 
 
 
